@@ -1,0 +1,22 @@
+version: '2'
+
+services:
+
+  event-receiver:
+    build: .
+    environment:
+      ABC: 'yes'
+    volumes:
+      - ./:/app
+    networks:
+      - code-network
+    command: /app/run.sh
+
+  rabbitmq:
+    image: rabbitmq:3.6.10
+    networks:
+      - code-network
+
+networks:
+    code-network:
+        driver: bridge
