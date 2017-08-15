@@ -26,6 +26,10 @@ public class MessageHandler
             System.out.println("Event in incorrect format: >>" + message + "<<\n");
             return;
         }
-        this.eventsCollection.tryParse(event);
+
+        boolean isParsed = this.eventsCollection.tryParse(event);
+        if (isParsed == false) {
+            System.out.println("Event was not parsed: " + event.toJson().toString());
+        }
     }
 }

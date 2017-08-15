@@ -6,31 +6,29 @@ import java.util.Date;
 public class Event
 {
     private String name;
-
     private Date occurredAt;
-
     private JSONObject data;
 
-    public Event(String name, Date occuredAt, JSONObject data)
+    public Event(String name, Date occurredAt, JSONObject data)
     {
         this.name = name;
-        this.occurredAt = occuredAt;
+        this.occurredAt = occurredAt;
         this.data = data;
     }
 
     public String getName()
     {
-        return name;
+        return this.name;
     }
 
     public Date getOccurredAt()
     {
-        return occurredAt;
+        return this.occurredAt;
     }
 
     public JSONObject getData()
     {
-        return data;
+        return this.data;
     }
 
     public JSONObject toJson()
