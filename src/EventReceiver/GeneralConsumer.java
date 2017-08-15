@@ -1,27 +1,21 @@
 package EventReceiver;
 
-import EventReceiver.ValueObjects.Event;
 import com.rabbitmq.client.*;
-import org.json.JSONException;
-
 import java.io.IOException;
 
 public class GeneralConsumer implements Consumer
 {
     private final Channel channel;
     private volatile String consumerTag;
-    private StringToEventParser stringToEventParser;
-    private EventsCollection eventsCollection;
+    private MessageHandler messageHandler;
 
     public GeneralConsumer(
         Channel channel,
-        StringToEventParser stringToEventParser,
-        EventsCollection eventsCollection
+        MessageHandler messageHandler
     )
     {
         this.channel = channel;
-        this.stringToEventParser = stringToEventParser;
-        this.eventsCollection = eventsCollection;
+        this.messageHandler = messageHandler;
     }
 
     public Channel getChannel() {
@@ -67,13 +61,6 @@ public class GeneralConsumer implements Consumer
         String message = new String(body, "UTF-8");
         System.out.println(" [x] Received '" + message + "'");
 
-        Event event = null;
-        try {
-            event = stringToEventParser.parseToEvent(message);
-        } catch (JSONException e) {
-            System.out.println("Event in incorrect format: >>" + message + "<<");
-            return;
-        }
-        this.eventsCollection.tryParse(event);
+        this.messageHandler.handleMessage(message);
     }
 }

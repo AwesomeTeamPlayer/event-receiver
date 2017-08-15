@@ -35,15 +35,16 @@ class Connector
                 factory.setHost(hostAddress);
                 factory.setExceptionHandler(new DefaultExceptionHandler());
                 Connection connection = factory.newConnection();
+                Channel channel = connection.createChannel();
 
                 System.out.println("Connected with RabbitMQ");
 
-                Channel channel = connection.createChannel();
-
                 GeneralConsumer consumer =  new GeneralConsumer(
                     channel,
-                    this.stringToEventParser,
-                    this.eventsCollection
+                    new MessageHandler(
+                        this.stringToEventParser,
+                        this.eventsCollection
+                    )
                 );
                 channel.basicConsume(channelName, true, consumer);
                 return channel;
