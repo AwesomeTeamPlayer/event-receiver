@@ -19,7 +19,10 @@ public class EventsCollection
         for (EventParserInterface eventParser : this.eventParsersList) {
             if (eventParser.getEventName().equals(event.getName())) {
                 eventParser.execute(event);
+                break;
             }
         }
+
+        System.out.println("Event was not parsed: " + event.toJson().toString());
     }
 }
