@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="iso-8859-2"?>
+<project name="Project name" basedir="." default="compile">
+
+    <property name="src.dir" value="./src"/>
+    <property name="build.dir" value="./build"/>
+    <property name="lib.dir" value="./lib"/>
+    <property name="test.dir" value="./tests"/>
+    <property name="test.build.dir" value="./build/test"/>
+
+    <path id="classpath.compile">
+        <pathelement location="${lib.dir}/junit.jar"/>
+        <pathelement location="${lib.dir}/amqp-client-4.0.2.jar"/>
+        <pathelement location="${lib.dir}/json-20170516.jar"/>
+        <pathelement location="${lib.dir}/slf4j-api-1.7.25.jar"/>
+        <pathelement location="${lib.dir}/slf4j-simple-1.7.25.jar"/>
+        <pathelement location="${build.dir}"/>
+    </path>
+
+    <path id="classpath.test">
+        <pathelement location="${lib.dir}/junit-4.12.jar"/>
+        <pathelement location="${lib.dir}/hamcrest-core-1.3.jar"/>
+        <pathelement location="${build.dir}"/>
+    </path>
+
+    <target name="compile" depends="">
+        <delete dir="${build.dir}" />
+        <mkdir dir="${build.dir}"/>
+        <javac srcdir="${src.dir}" destdir="${build.dir}">
+            <classpath refid="classpath.compile"/>
+        </javac>
+    </target>
+
+    <target name="test-compile" depends="compile">
+        <mkdir dir="${test.build.dir}"/>
+        <javac srcdir="${test.dir}" destdir="${test.build.dir}" includeantruntime="false">
+            <classpath refid="classpath.test"/>
+            <classpath refid="classpath.compile"/>
+        </javac>
+    </target>
+
+    <target name="test" depends="test-compile">
+        <junit printsummary="on" haltonfailure="yes" fork="true">
+            <classpath>
+                <path refid="classpath.test"/>
+                <path refid="classpath.compile"/>
+                <pathelement location="${test.build.dir}"/>
+            </classpath>
+            <formatter type="brief" usefile="false" />
+            <batchtest>
+                <fileset dir="${test.dir}" includes="**/*Test.java" />
+            </batchtest>
+        </junit>
+    </target>
+
+    <target name="build-jar" depends="compile">
+        <jar destfile="./app.jar">
+            <fileset dir="${build.dir}" />
+        </jar>
+    </target>
+</project>
