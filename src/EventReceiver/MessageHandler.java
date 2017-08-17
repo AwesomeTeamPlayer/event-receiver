@@ -1,7 +1,7 @@
 package EventReceiver;
 
+import EventReceiver.Exceptions.IncorrectJsonException;
 import EventReceiver.ValueObjects.Event;
-import org.json.JSONException;
 
 public class MessageHandler
 {
@@ -22,7 +22,7 @@ public class MessageHandler
         Event event;
         try {
             event = stringToEventParser.parseToEvent(message);
-        } catch (JSONException e) {
+        } catch (IncorrectJsonException e) {
             System.out.println("Event in incorrect format: >>" + message + "<<\n");
             return;
         }
