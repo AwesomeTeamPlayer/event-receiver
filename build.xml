@@ -13,6 +13,7 @@
         <pathelement location="${lib.dir}/json-20170516.jar"/>
         <pathelement location="${lib.dir}/slf4j-api-1.7.25.jar"/>
         <pathelement location="${lib.dir}/slf4j-simple-1.7.25.jar"/>
+        <pathelement location="${lib.dir}/mockito-all-1.10.19.jar"/>
         <pathelement location="${build.dir}"/>
     </path>
 
