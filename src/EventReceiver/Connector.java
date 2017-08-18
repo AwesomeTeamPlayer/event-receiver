@@ -21,7 +21,7 @@ class Connector
     }
 
     public Channel connectToChannel(
-        String hostAddress,
+        RabbitConnectionData rabbitConnectionData,
         String channelName,
         int sleepInMilliseconds
     ) throws InterruptedException
@@ -32,7 +32,11 @@ class Connector
             this.wait(sleepInMilliseconds);
 
             try {
-                factory.setHost(hostAddress);
+                factory.setHost(rabbitConnectionData.getHost());
+                factory.setPort(rabbitConnectionData.getPort());
+                factory.setPassword(rabbitConnectionData.getPassword());
+                factory.setUsername(rabbitConnectionData.getUsername());
+
                 factory.setExceptionHandler(new DefaultExceptionHandler());
                 Connection connection = factory.newConnection();
                 Channel channel = connection.createChannel();
@@ -51,9 +55,9 @@ class Connector
             } catch (AlreadyClosedException e) {
                 System.out.println("Connection is closed");
             } catch (ShutdownSignalException e) {
-                System.out.println("Lost connection with host " + hostAddress);
+                System.out.println("Lost connection with host " + rabbitConnectionData.getHost());
             } catch (UnknownHostException e) {
-                System.out.println("Unknown Host " + hostAddress);
+                System.out.println("Unknown Host " + rabbitConnectionData.getHost());
             } catch ( IOException | TimeoutException e) {
             }
         }
