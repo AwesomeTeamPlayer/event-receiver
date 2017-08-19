@@ -8,4 +8,4 @@ services:
 before_script:
   - sudo apt-get install ant-optional
 
-script: ant -lib ./lib/junit-4.12.jar test
+script: ant test
