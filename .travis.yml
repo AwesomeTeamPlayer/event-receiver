@@ -5,4 +5,4 @@ jdk:
 services:
   - docker
 
-script: ant test
+script: ant test -lib ./lib/junit-4.12.jar
