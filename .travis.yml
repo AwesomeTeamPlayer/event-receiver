@@ -5,4 +5,4 @@ jdk:
 services:
   - docker
 
-script: ant test-compile
+script: ant test && ./run-end-to-end-tests.sh
