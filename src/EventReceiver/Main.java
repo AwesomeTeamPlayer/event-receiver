@@ -37,7 +37,8 @@ public class Main
         int waitingTimeInMilliseconds = 1000;
 
         Connector connector = new Connector(
-            new StringToEventParser()
+            new StringToEventParser(),
+            new HttpRequestMakersCollection()
         );
         connector.connectToChannel(
             rabbitConnectionData,

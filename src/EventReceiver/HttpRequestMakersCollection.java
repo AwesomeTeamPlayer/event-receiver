@@ -1,8 +1,8 @@
 package EventReceiver;
 
-public class ServicesHttpRequestMaker
+public class HttpRequestMakersCollection
 {
-    private HttpRequestMaker userService = new HttpRequestMaker("user-service", 8001);;
+    private HttpRequestMaker userService = new HttpRequestMaker("user-service", 8001);
 
     public HttpRequestMaker getUserServiceRequestMaker()
     {
