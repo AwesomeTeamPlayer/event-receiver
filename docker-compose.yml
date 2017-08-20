@@ -10,7 +10,7 @@ services:
       - ./:/app
     networks:
       - code-network
-    command: /app/run.sh
+    command: /app/run.sh rabbitmq 5672 guest guest events
 
   rabbitmq:
     image: rabbitmq:3.6.10
