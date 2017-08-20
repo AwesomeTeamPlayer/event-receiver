@@ -13,7 +13,8 @@ import static org.junit.Assert.assertTrue;
 public class EventsCollectionTest
 {
     @Test
-    public void test_tryParse_when_collection_is_empty() {
+    public void test_tryParse_when_collection_is_empty() throws Exception
+    {
         EventsCollection eventsCollection = new EventsCollection();
         boolean result = eventsCollection.tryParse(
             new Event("name", new Date(), new JSONObject())
@@ -23,7 +24,8 @@ public class EventsCollectionTest
     }
 
     @Test
-    public void test_tryParse_when_collection_is_not_empty_but_there_is_not_matched_event_parser() {
+    public void test_tryParse_when_collection_is_not_empty_but_there_is_not_matched_event_parser() throws Exception
+    {
         EventParserInterface eventParser_0 = mock ( EventParserInterface. class );
         stub(eventParser_0.getEventName()).toReturn("xyz");
 
@@ -42,7 +44,8 @@ public class EventsCollectionTest
     }
 
     @Test
-    public void test_tryParse_when_collection_is_not_empty_and_there_is_matched_event_parser() {
+    public void test_tryParse_when_collection_is_not_empty_and_there_is_matched_event_parser() throws Exception
+    {
         EventParserInterface eventParser_0 = mock ( EventParserInterface. class );
         stub(eventParser_0.getEventName()).toReturn("xyz");
 

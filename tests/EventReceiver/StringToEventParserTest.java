@@ -34,7 +34,7 @@ public class StringToEventParserTest
     public void test_parseToEvent_with_json_without_name() throws IncorrectJsonException
     {
         StringToEventParser stringToEventParser = new StringToEventParser();
-        stringToEventParser.parseToEvent("{\"occurredAt\":\"2012-12-12 12:12:12\", \"data\":{}}");
+        stringToEventParser.parseToEvent("{\"occurredAt\":\"2012-01-02T03:04:05+06:07\", \"data\":{}}");
     }
 
     @Test(expected = IncorrectJsonException.class)
@@ -76,10 +76,10 @@ public class StringToEventParserTest
     public void test_parseToEvent_with_correct_json() throws IncorrectJsonException
     {
         StringToEventParser stringToEventParser = new StringToEventParser();
-        Event event = stringToEventParser.parseToEvent("{\"occurredAt\":\"2012-12-12 12:12:12\", \"name\":\"name\", \"data\":{\"a\":\"b\"}}}");
+            Event event = stringToEventParser.parseToEvent("{\"occurredAt\":\"2012-01-02T03:04:05.123+02:00\", \"name\":\"name\", \"data\":{\"a\":\"b\"}}}");
         assertEquals("name", event.getName());
         assertEquals((new JSONObject("{\"a\":\"b\"}").toString()), event.getData().toString());
-        //  todo: check occurredAt data value
+        assertEquals(((long) 1325466245) * 1000 + 123, event.getOccurredAt().getTime());
     }
 
 }
