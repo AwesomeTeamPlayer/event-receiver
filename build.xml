@@ -15,6 +15,7 @@
         <pathelement location="${lib.dir}/org.apache.commons.httpclient.jar"/>
         <pathelement location="${lib.dir}/commons-logging-1.1.2.jar"/>
         <pathelement location="${lib.dir}/commons-codec-1.10.jar"/>
+        <pathelement location="${lib.dir}/joda-time-2.4.jar"/>
         <pathelement location="${build.dir}"/>
     </path>
 
