@@ -61,6 +61,12 @@ public class GeneralConsumer implements Consumer
         String message = new String(body, "UTF-8");
         System.out.println(" [x] Received '" + message + "'");
 
-        this.messageHandler.handleMessage(message);
+        try {
+            this.messageHandler.handleMessage(message);
+            this.channel.basicAck(envelope.getDeliveryTag(), false);
+        } catch (Exception exception) {
+            System.out.println(" The exception occurred during the process" + exception.getMessage());
+            exception.printStackTrace();
+        }
     }
 }

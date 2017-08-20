@@ -6,5 +6,5 @@ public interface EventParserInterface
 {
     String getEventName();
 
-    void execute(Event event);
+    boolean execute(Event event) throws Exception;
 }

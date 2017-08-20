@@ -17,7 +17,7 @@ public class MessageHandler
         this.eventsCollection = eventsCollection;
     }
 
-    public void handleMessage(String message)
+    public void handleMessage(String message) throws Exception
     {
         Event event;
         try {

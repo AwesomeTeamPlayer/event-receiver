@@ -14,7 +14,7 @@ public class EventsCollection
         this.eventParsersList.add(event);
     }
 
-    public boolean tryParse(Event event)
+    public boolean tryParse(Event event) throws Exception
     {
         for (EventParserInterface eventParser : this.eventParsersList) {
             if (eventParser.getEventName().equals(event.getName())) {

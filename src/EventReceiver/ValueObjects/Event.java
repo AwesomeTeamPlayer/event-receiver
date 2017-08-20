@@ -5,9 +5,23 @@ import java.util.Date;
 
 public class Event
 {
-    private String name;
-    private Date occurredAt;
-    private JSONObject data;
+    private final String name;
+    private final Date occurredAt;
+    private final JSONObject data;
+
+    public Event(String name)
+    {
+        this.name = name;
+        this.occurredAt = new Date();
+        this.data = new JSONObject();
+    }
+
+    public Event(String name, Date occurredAt)
+    {
+        this.name = name;
+        this.occurredAt = occurredAt;
+        this.data = new JSONObject();
+    }
 
     public Event(String name, Date occurredAt, JSONObject data)
     {

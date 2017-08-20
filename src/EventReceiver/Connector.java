@@ -1,5 +1,7 @@
 package EventReceiver;
 
+import EventReceiver.EventParsers.EchoEventParser;
+import EventReceiver.EventParsers.UserUpdatedEventParser;
 import com.rabbitmq.client.*;
 
 import java.io.IOException;
@@ -8,16 +10,11 @@ import java.util.concurrent.TimeoutException;
 
 class Connector
 {
-    private StringToEventParser stringToEventParser;
-    private EventsCollection eventsCollection;
+    private final StringToEventParser stringToEventParser;
 
-    public Connector(
-        StringToEventParser stringToEventParser,
-        EventsCollection eventsCollection
-    )
+    public Connector(StringToEventParser stringToEventParser)
     {
         this.stringToEventParser = stringToEventParser;
-        this.eventsCollection = eventsCollection;
     }
 
     public Channel connectToChannel(
@@ -43,14 +40,18 @@ class Connector
 
                 System.out.println("Connected with RabbitMQ");
 
-                GeneralConsumer consumer =  new GeneralConsumer(
+                EventsCollection eventsCollection = this.getEventCollection(
+                    new RabbitQueueConnection(channelName, channel)
+                );
+
+                GeneralConsumer consumer = new GeneralConsumer(
                     channel,
                     new MessageHandler(
                         this.stringToEventParser,
-                        this.eventsCollection
+                        eventsCollection
                     )
                 );
-                channel.basicConsume(channelName, true, consumer);
+                channel.basicConsume(channelName, false, consumer);
                 return channel;
             } catch (AlreadyClosedException e) {
                 System.out.println("Connection is closed");
@@ -67,5 +68,13 @@ class Connector
     {
         Thread.sleep(sleepInMilliseconds);
         System.out.println("\nWait " + sleepInMilliseconds + " ms");
+    }
+
+    private EventsCollection getEventCollection(RabbitQueueConnection rabbitMqConnector)
+    {
+        EventsCollection eventsCollection = new EventsCollection();
+        eventsCollection.add(new EchoEventParser(rabbitMqConnector));
+
+        return eventsCollection;
     }
 }

@@ -1,10 +1,11 @@
 package EventReceiver;
 
-import EventReceiver.EventParsers.EchoEventParser;
+import java.io.IOException;
+import java.util.concurrent.TimeoutException;
 
 public class Main
 {
-    public static void main(String[] args) throws InterruptedException
+    public static void main(String[] args) throws InterruptedException, IOException, TimeoutException
     {
         if (args.length < 5) {
             System.out.println("Required arguments:");
@@ -35,12 +36,8 @@ public class Main
 
         int waitingTimeInMilliseconds = 1000;
 
-        EventsCollection eventsCollection = new EventsCollection();
-        eventsCollection.add(new EchoEventParser());
-
         Connector connector = new Connector(
-            new StringToEventParser(),
-            eventsCollection
+            new StringToEventParser()
         );
         connector.connectToChannel(
             rabbitConnectionData,
