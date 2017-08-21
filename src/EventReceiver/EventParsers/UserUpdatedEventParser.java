@@ -1,21 +1,15 @@
 package EventReceiver.EventParsers;
 
-import EventReceiver.RabbitQueueConnection;
-import EventReceiver.HttpRequestMakersCollection;
+import EventReceiver.ClientsCollection;
 import EventReceiver.ValueObjects.Event;
 
 public class UserUpdatedEventParser implements EventParserInterface
 {
-    private final HttpRequestMakersCollection httpRequestMakerCollection;
-    private final RabbitQueueConnection rabbitMqConnector;
+    private final ClientsCollection clientsCollection;
 
-    public UserUpdatedEventParser(
-        HttpRequestMakersCollection servicesHttpRequestMakerCollection,
-        RabbitQueueConnection rabbitMqConnector
-    )
+    public UserUpdatedEventParser(ClientsCollection clientsCollection)
     {
-        this.httpRequestMakerCollection = servicesHttpRequestMakerCollection;
-        this.rabbitMqConnector = rabbitMqConnector;
+        this.clientsCollection = clientsCollection;
     }
 
     public String getEventName()
@@ -25,9 +19,9 @@ public class UserUpdatedEventParser implements EventParserInterface
 
     public boolean execute(Event event) throws Exception
     {
-        this.httpRequestMakerCollection
-                .getUserServiceRequestMaker()
-                .makeGetRequest("/");
+        this.clientsCollection
+            .getSourceListener()
+            .informClients("users", event.getData().toString());
 
         return true;
     }
