@@ -1,5 +1,6 @@
 package EventReceiver.Clients;
 
+import EventReceiver.Clients.Exceptions.UserDoesNotFoundException;
 import EventReceiver.Clients.ValueObjects.User;
 import EventReceiver.HttpRequestMaker;
 import org.json.JSONObject;
@@ -43,13 +44,18 @@ public class UsersServiceClient
         );
     }
 
-    public User findUser(String email) throws IOException
+    public User findUser(String email) throws IOException, UserDoesNotFoundException
     {
         String response = this.usersService.makeGetRequest(
             "/users?email=" + email
         );
 
         JSONObject responseJson = new JSONObject(response);
+
+        if (responseJson.getString("status").equals("failed")) {
+            throw new UserDoesNotFoundException();
+        }
+
         return new User(
             responseJson.getString("name"),
             responseJson.getString("email"),
