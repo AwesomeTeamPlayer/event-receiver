@@ -11,15 +11,15 @@ import java.util.concurrent.TimeoutException;
 class Connector
 {
     private final StringToEventParser stringToEventParser;
-    private final HttpRequestMakersCollection httpRequestMakerCollection;
+    private ClientsCollection clientsCollection;
 
     public Connector(
         StringToEventParser stringToEventParser,
-        HttpRequestMakersCollection servicesHttpRequestMakerCollection
+        ClientsCollection clientsCollection
     )
     {
         this.stringToEventParser = stringToEventParser;
-        this.httpRequestMakerCollection = servicesHttpRequestMakerCollection;
+        this.clientsCollection = clientsCollection;
     }
 
     public Channel connectToChannel(
@@ -79,7 +79,7 @@ class Connector
     {
         EventsCollection eventsCollection = new EventsCollection();
         eventsCollection.add(new EchoEventParser(rabbitMqConnector));
-        eventsCollection.add(new UserUpdatedEventParser(this.httpRequestMakerCollection, rabbitMqConnector));
+        eventsCollection.add(new UserUpdatedEventParser(this.clientsCollection));
 
         return eventsCollection;
     }

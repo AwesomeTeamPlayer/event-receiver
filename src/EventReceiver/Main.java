@@ -38,7 +38,7 @@ public class Main
 
         Connector connector = new Connector(
             new StringToEventParser(),
-            new HttpRequestMakersCollection()
+            new ClientsCollection()
         );
         connector.connectToChannel(
             rabbitConnectionData,
